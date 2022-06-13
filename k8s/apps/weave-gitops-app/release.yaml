@@ -18,6 +18,6 @@ spec:
   values:
     adminUser:
       create: true
-      username: test-admin
+      username: admin
       # password is... 'password'
       passwordHash: '$2y$10$If3hNEXnLMdkHo7L/PijguisTcVkNZNdcqDeumEUuAIeGmL.zrGYO'

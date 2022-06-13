@@ -1,8 +1,12 @@
 KIND_CLUSTER_NAME?=wego-scenarios
 
+MINIO_NETWORK?=kind
+MINIO_ROOT_USER?=admin
+MINIO_ROOT_PASSWORD?=password
+# Container name is also used as the hostname of the server on the docker network
 MINIO_CONTAINER_NAME=minio-server
-MINIO_ROOT_USER?=minio
-MINIO_ROOT_PASSWORD?=minioPassword
+
+SCENARIOS_IMAGE?=gitops-scenarios
 
 .PHONY: create-cluster list-clusters delete-cluster is-kind-cluster-context
 ##@ Cluster operations
@@ -35,44 +39,98 @@ else
 endif
 
 
+.PHONY: start-minio add-minio-source add-flux-kustomization
+##@ Minio
+start-minio: ## Start a minio server running on the kind network
+	@if [ ! -z "$(shell docker ps -qaf 'status=running' -f 'name=$(MINIO_CONTAINER_NAME)')" ] ; then \
+		echo "minio already running" ; \
+	else \
+		docker run -d -v $(PWD):/data \
+							-p 9000:9000 -p 9001:9001 --network=kind \
+							-h $(MINIO_CONTAINER_NAME) \
+							-e MINIO_ROOT_USER=$(MINIO_ROOT_USER) \
+							-e MINIO_ROOT_PASSWORD=$(MINIO_ROOT_PASSWORD) \
+							--name $(MINIO_CONTAINER_NAME) \
+							minio/minio server /data --console-address ":9001" ; \
+	fi
+
+rm-minio: ## Stop and remove the minio server container
+		@if [ ! -z "$(shell docker ps -qaf 'status=running' -f 'name=$(MINIO_CONTAINER_NAME)')" ] ; then \
+			docker stop $(MINIO_CONTAINER_NAME); \
+			docker container rm $(MINIO_CONTAINER_NAME); \
+		else \
+			echo "minio server, '$(MINIO_CONTAINER_NAME)', not running" ; \
+		fi
+
+
 .PHONY: install-flux
 ##@ Flux
 install-flux: create-cluster is-kind-cluster-context ## Install flux (depends on create-cluster)
 	@flux install
 
-
-.PHONY: start-minio add-minio-source add-flux-kustomization
-##@ Minio
-# start-minio: install-flux ## Install Minio (depends on install-flux)
-start-minio: ## Start a minio server running on the kind network
-# 	if ( docker inspect $(MINIO_CONTAINER_NAME) &> /dev/null ) ; then
-	@if [ ! -z "$(shell docker ps -qaf 'status=running' -f 'name=$(MINIO_CONTAINER_NAME)')" ] ; then \
-		echo "minio already running" ; \
-	else \
-		docker run -d -v $(PWD):/data \
-		 						-p 9000:9000 -p 9001:9001 --network=kind \
-		 						-e MINIO_ROOT_USER=$(MINIO_ROOT_USER) \
-		 						-e MINIO_ROOT_PASSWORD=$(MINIO_ROOT_PASSWORD) \
-		 					  --name $(MINIO_CONTAINER_NAME) \
- 		 						minio/minio server /data --console-address ":9001" ; \
- 	fi
-
-add-minio-source: start-minio install-flux
+add-minio-source: start-minio install-flux ## Add Minio as a bucket source to flux
 	@flux create source bucket flux-system \
 				--bucket-name k8s \
-				--endpoint="$(shell docker inspect -f '{{ .NetworkSettings.Networks.kind.IPAddress }}' $(MINIO_CONTAINER_NAME)):9000" \
+				--endpoint="$(MINIO_CONTAINER_NAME):9000" \
 				--insecure=true \
 				--access-key=$(MINIO_ROOT_USER) \
 				--secret-key=$(MINIO_ROOT_PASSWORD) \
 				--interval=30s
 
-add-flux-kustomization: add-minio-source
-	@flux create kustomization bucket flux-system \
+add-flux-kustomization: add-minio-source ## Add the base flux-system kustomization to flux
+	@flux create kustomization flux-system \
 				--source=bucket/flux-system \
 				--path='./cluster' \
-  			--prune=true \
-  			--validation=client \
+				--prune=true \
 				--interval=30s
+
+access-weave-gitops: is-kind-cluster-context
+	@echo "browse to: http://localhost:5000"
+	@kubectl port-forward -n flux-system svc/weave-gitops-app 5000:9001
+
+
+.PHONY: docker-scenarios-image interactive-scenarios-image
+##@ Scenarios Docker Image
+docker-scenarios-image: ## Create the scenarios docker image
+	docker build -t $(SCENARIOS_IMAGE) -f scenario-generators/Dockerfile scenario-generators/
+
+interactive-scenarios-image: docker-scenarios-image ## Start a shell in the scenarios docker image with $PWD mounted as /app
+	docker run -ti --rm --entrypoint=/bin/bash \
+						-v $(PWD)/scenarios:/scenarios/ \
+						-v $(PWD)/scenario-generators:/scenario-generators/ \
+						$(SCENARIOS_IMAGE)
+
+
+.PHONY: many-namespaces
+##@ Generate scenario resources
+SCENARIO_SRC=$(shell find scenario-generators/ -type f)
+scenarios/%: $(SCENARIO_SRC)
+	@echo "Generating resources for scenario: '$*'"
+	@mkdir -p $@
+	@if [ -z "$(shell docker image ls -q $(SCENARIOS_IMAGE))" ]; then \
+		echo "scenario image, '$(SCENARIOS_IMAGE)', not found, please run:\n\tmake docker-scenarios-image" ; \
+	else \
+		docker run --rm -v $(PWD)/scenarios:/scenarios/ \
+							$(SCENARIOS_IMAGE) \
+							$*/generate.py -d /scenarios/$* $(SCENARIO_ARGS) ; \
+		echo "done"; \
+	fi
+
+many-namespaces: N?=200
+many-namespaces: SCENARIO_ARGS=--namespaces $(N)
+many-namespaces: scenarios/many-namespaces ## Generate N namespaces (default 200)
+
+
+.PHONY: run-many-namespaces
+##@ Run Scenarios
+_run-%: is-kind-cluster-context %
+	@flux create kustomization many-namespaces \
+				--source=bucket/scenarios \
+				--path=./$* \
+				--prune=true \
+				--interval=30s
+
+run-many-namespaces: _run-many-namespaces ## Create a flux kustomization that adds 200 namespaces to the cluster
 
 
 .PHONY: help
@@ -84,4 +142,3 @@ ifeq ($(OS),Windows_NT)
 else
 				@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-40s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 endif
-

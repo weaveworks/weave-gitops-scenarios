@@ -1,0 +1,1599 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f0, ftest-namespace)
+  name: test-namespace-0
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f1, ftest-namespace)
+  name: test-namespace-1
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f2, ftest-namespace)
+  name: test-namespace-2
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f3, ftest-namespace)
+  name: test-namespace-3
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f4, ftest-namespace)
+  name: test-namespace-4
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f5, ftest-namespace)
+  name: test-namespace-5
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f6, ftest-namespace)
+  name: test-namespace-6
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f7, ftest-namespace)
+  name: test-namespace-7
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f8, ftest-namespace)
+  name: test-namespace-8
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f9, ftest-namespace)
+  name: test-namespace-9
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f10, ftest-namespace)
+  name: test-namespace-10
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f11, ftest-namespace)
+  name: test-namespace-11
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f12, ftest-namespace)
+  name: test-namespace-12
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f13, ftest-namespace)
+  name: test-namespace-13
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f14, ftest-namespace)
+  name: test-namespace-14
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f15, ftest-namespace)
+  name: test-namespace-15
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f16, ftest-namespace)
+  name: test-namespace-16
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f17, ftest-namespace)
+  name: test-namespace-17
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f18, ftest-namespace)
+  name: test-namespace-18
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f19, ftest-namespace)
+  name: test-namespace-19
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f20, ftest-namespace)
+  name: test-namespace-20
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f21, ftest-namespace)
+  name: test-namespace-21
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f22, ftest-namespace)
+  name: test-namespace-22
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f23, ftest-namespace)
+  name: test-namespace-23
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f24, ftest-namespace)
+  name: test-namespace-24
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f25, ftest-namespace)
+  name: test-namespace-25
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f26, ftest-namespace)
+  name: test-namespace-26
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f27, ftest-namespace)
+  name: test-namespace-27
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f28, ftest-namespace)
+  name: test-namespace-28
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f29, ftest-namespace)
+  name: test-namespace-29
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f30, ftest-namespace)
+  name: test-namespace-30
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f31, ftest-namespace)
+  name: test-namespace-31
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f32, ftest-namespace)
+  name: test-namespace-32
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f33, ftest-namespace)
+  name: test-namespace-33
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f34, ftest-namespace)
+  name: test-namespace-34
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f35, ftest-namespace)
+  name: test-namespace-35
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f36, ftest-namespace)
+  name: test-namespace-36
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f37, ftest-namespace)
+  name: test-namespace-37
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f38, ftest-namespace)
+  name: test-namespace-38
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f39, ftest-namespace)
+  name: test-namespace-39
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f40, ftest-namespace)
+  name: test-namespace-40
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f41, ftest-namespace)
+  name: test-namespace-41
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f42, ftest-namespace)
+  name: test-namespace-42
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f43, ftest-namespace)
+  name: test-namespace-43
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f44, ftest-namespace)
+  name: test-namespace-44
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f45, ftest-namespace)
+  name: test-namespace-45
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f46, ftest-namespace)
+  name: test-namespace-46
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f47, ftest-namespace)
+  name: test-namespace-47
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f48, ftest-namespace)
+  name: test-namespace-48
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f49, ftest-namespace)
+  name: test-namespace-49
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f50, ftest-namespace)
+  name: test-namespace-50
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f51, ftest-namespace)
+  name: test-namespace-51
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f52, ftest-namespace)
+  name: test-namespace-52
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f53, ftest-namespace)
+  name: test-namespace-53
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f54, ftest-namespace)
+  name: test-namespace-54
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f55, ftest-namespace)
+  name: test-namespace-55
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f56, ftest-namespace)
+  name: test-namespace-56
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f57, ftest-namespace)
+  name: test-namespace-57
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f58, ftest-namespace)
+  name: test-namespace-58
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f59, ftest-namespace)
+  name: test-namespace-59
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f60, ftest-namespace)
+  name: test-namespace-60
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f61, ftest-namespace)
+  name: test-namespace-61
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f62, ftest-namespace)
+  name: test-namespace-62
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f63, ftest-namespace)
+  name: test-namespace-63
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f64, ftest-namespace)
+  name: test-namespace-64
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f65, ftest-namespace)
+  name: test-namespace-65
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f66, ftest-namespace)
+  name: test-namespace-66
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f67, ftest-namespace)
+  name: test-namespace-67
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f68, ftest-namespace)
+  name: test-namespace-68
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f69, ftest-namespace)
+  name: test-namespace-69
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f70, ftest-namespace)
+  name: test-namespace-70
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f71, ftest-namespace)
+  name: test-namespace-71
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f72, ftest-namespace)
+  name: test-namespace-72
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f73, ftest-namespace)
+  name: test-namespace-73
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f74, ftest-namespace)
+  name: test-namespace-74
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f75, ftest-namespace)
+  name: test-namespace-75
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f76, ftest-namespace)
+  name: test-namespace-76
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f77, ftest-namespace)
+  name: test-namespace-77
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f78, ftest-namespace)
+  name: test-namespace-78
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f79, ftest-namespace)
+  name: test-namespace-79
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f80, ftest-namespace)
+  name: test-namespace-80
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f81, ftest-namespace)
+  name: test-namespace-81
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f82, ftest-namespace)
+  name: test-namespace-82
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f83, ftest-namespace)
+  name: test-namespace-83
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f84, ftest-namespace)
+  name: test-namespace-84
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f85, ftest-namespace)
+  name: test-namespace-85
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f86, ftest-namespace)
+  name: test-namespace-86
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f87, ftest-namespace)
+  name: test-namespace-87
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f88, ftest-namespace)
+  name: test-namespace-88
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f89, ftest-namespace)
+  name: test-namespace-89
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f90, ftest-namespace)
+  name: test-namespace-90
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f91, ftest-namespace)
+  name: test-namespace-91
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f92, ftest-namespace)
+  name: test-namespace-92
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f93, ftest-namespace)
+  name: test-namespace-93
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f94, ftest-namespace)
+  name: test-namespace-94
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f95, ftest-namespace)
+  name: test-namespace-95
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f96, ftest-namespace)
+  name: test-namespace-96
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f97, ftest-namespace)
+  name: test-namespace-97
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f98, ftest-namespace)
+  name: test-namespace-98
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f99, ftest-namespace)
+  name: test-namespace-99
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f100, ftest-namespace)
+  name: test-namespace-100
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f101, ftest-namespace)
+  name: test-namespace-101
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f102, ftest-namespace)
+  name: test-namespace-102
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f103, ftest-namespace)
+  name: test-namespace-103
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f104, ftest-namespace)
+  name: test-namespace-104
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f105, ftest-namespace)
+  name: test-namespace-105
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f106, ftest-namespace)
+  name: test-namespace-106
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f107, ftest-namespace)
+  name: test-namespace-107
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f108, ftest-namespace)
+  name: test-namespace-108
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f109, ftest-namespace)
+  name: test-namespace-109
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f110, ftest-namespace)
+  name: test-namespace-110
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f111, ftest-namespace)
+  name: test-namespace-111
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f112, ftest-namespace)
+  name: test-namespace-112
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f113, ftest-namespace)
+  name: test-namespace-113
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f114, ftest-namespace)
+  name: test-namespace-114
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f115, ftest-namespace)
+  name: test-namespace-115
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f116, ftest-namespace)
+  name: test-namespace-116
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f117, ftest-namespace)
+  name: test-namespace-117
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f118, ftest-namespace)
+  name: test-namespace-118
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f119, ftest-namespace)
+  name: test-namespace-119
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f120, ftest-namespace)
+  name: test-namespace-120
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f121, ftest-namespace)
+  name: test-namespace-121
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f122, ftest-namespace)
+  name: test-namespace-122
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f123, ftest-namespace)
+  name: test-namespace-123
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f124, ftest-namespace)
+  name: test-namespace-124
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f125, ftest-namespace)
+  name: test-namespace-125
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f126, ftest-namespace)
+  name: test-namespace-126
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f127, ftest-namespace)
+  name: test-namespace-127
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f128, ftest-namespace)
+  name: test-namespace-128
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f129, ftest-namespace)
+  name: test-namespace-129
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f130, ftest-namespace)
+  name: test-namespace-130
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f131, ftest-namespace)
+  name: test-namespace-131
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f132, ftest-namespace)
+  name: test-namespace-132
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f133, ftest-namespace)
+  name: test-namespace-133
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f134, ftest-namespace)
+  name: test-namespace-134
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f135, ftest-namespace)
+  name: test-namespace-135
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f136, ftest-namespace)
+  name: test-namespace-136
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f137, ftest-namespace)
+  name: test-namespace-137
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f138, ftest-namespace)
+  name: test-namespace-138
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f139, ftest-namespace)
+  name: test-namespace-139
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f140, ftest-namespace)
+  name: test-namespace-140
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f141, ftest-namespace)
+  name: test-namespace-141
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f142, ftest-namespace)
+  name: test-namespace-142
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f143, ftest-namespace)
+  name: test-namespace-143
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f144, ftest-namespace)
+  name: test-namespace-144
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f145, ftest-namespace)
+  name: test-namespace-145
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f146, ftest-namespace)
+  name: test-namespace-146
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f147, ftest-namespace)
+  name: test-namespace-147
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f148, ftest-namespace)
+  name: test-namespace-148
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f149, ftest-namespace)
+  name: test-namespace-149
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f150, ftest-namespace)
+  name: test-namespace-150
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f151, ftest-namespace)
+  name: test-namespace-151
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f152, ftest-namespace)
+  name: test-namespace-152
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f153, ftest-namespace)
+  name: test-namespace-153
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f154, ftest-namespace)
+  name: test-namespace-154
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f155, ftest-namespace)
+  name: test-namespace-155
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f156, ftest-namespace)
+  name: test-namespace-156
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f157, ftest-namespace)
+  name: test-namespace-157
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f158, ftest-namespace)
+  name: test-namespace-158
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f159, ftest-namespace)
+  name: test-namespace-159
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f160, ftest-namespace)
+  name: test-namespace-160
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f161, ftest-namespace)
+  name: test-namespace-161
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f162, ftest-namespace)
+  name: test-namespace-162
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f163, ftest-namespace)
+  name: test-namespace-163
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f164, ftest-namespace)
+  name: test-namespace-164
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f165, ftest-namespace)
+  name: test-namespace-165
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f166, ftest-namespace)
+  name: test-namespace-166
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f167, ftest-namespace)
+  name: test-namespace-167
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f168, ftest-namespace)
+  name: test-namespace-168
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f169, ftest-namespace)
+  name: test-namespace-169
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f170, ftest-namespace)
+  name: test-namespace-170
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f171, ftest-namespace)
+  name: test-namespace-171
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f172, ftest-namespace)
+  name: test-namespace-172
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f173, ftest-namespace)
+  name: test-namespace-173
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f174, ftest-namespace)
+  name: test-namespace-174
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f175, ftest-namespace)
+  name: test-namespace-175
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f176, ftest-namespace)
+  name: test-namespace-176
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f177, ftest-namespace)
+  name: test-namespace-177
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f178, ftest-namespace)
+  name: test-namespace-178
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f179, ftest-namespace)
+  name: test-namespace-179
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f180, ftest-namespace)
+  name: test-namespace-180
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f181, ftest-namespace)
+  name: test-namespace-181
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f182, ftest-namespace)
+  name: test-namespace-182
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f183, ftest-namespace)
+  name: test-namespace-183
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f184, ftest-namespace)
+  name: test-namespace-184
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f185, ftest-namespace)
+  name: test-namespace-185
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f186, ftest-namespace)
+  name: test-namespace-186
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f187, ftest-namespace)
+  name: test-namespace-187
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f188, ftest-namespace)
+  name: test-namespace-188
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f189, ftest-namespace)
+  name: test-namespace-189
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f190, ftest-namespace)
+  name: test-namespace-190
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f191, ftest-namespace)
+  name: test-namespace-191
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f192, ftest-namespace)
+  name: test-namespace-192
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f193, ftest-namespace)
+  name: test-namespace-193
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f194, ftest-namespace)
+  name: test-namespace-194
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f195, ftest-namespace)
+  name: test-namespace-195
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f196, ftest-namespace)
+  name: test-namespace-196
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f197, ftest-namespace)
+  name: test-namespace-197
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f198, ftest-namespace)
+  name: test-namespace-198
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    generated-by: gitops-scenarios/scenarios/many-namespaces
+    params: make_namespace(f199, ftest-namespace)
+  name: test-namespace-199

@@ -1,0 +1,15 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: Bucket
+metadata:
+  name: scenarios
+  namespace: flux-system
+spec:
+  bucketName: scenarios
+  endpoint: minio-server:9000
+  insecure: true
+  interval: 30s
+  provider: generic
+  # Use the same credentials as we use for the flux-system bucket as they're both on the same minio
+  secretRef:
+    name: bucket-flux-system
