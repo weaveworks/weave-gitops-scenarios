@@ -5,14 +5,18 @@
 
 FROM python:3
 
-WORKDIR /scenario-generators
-COPY pyproject.toml poetry.lock /scenario-generators
+
+RUN echo 'alias ls="ls --color=auto"\nalias l="ls -lah"' >> ~/.bashrc
+
+WORKDIR /app
+
+COPY pyproject.toml poetry.lock .
 
 RUN apt-get update && \
     pip3 install poetry==1.1.12 && \
     poetry install && \
     rm -rf /var/lib/apt/lists/*
 
-COPY . /scenario-generators
+COPY scenario-generators/ scenario-generators/
 
-ENTRYPOINT ["poetry", "run", "python"]
+ENTRYPOINT ["poetry", "run", "python", "-m"]

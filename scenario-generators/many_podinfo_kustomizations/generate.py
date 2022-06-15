@@ -1,19 +1,24 @@
+#
+# Test how flux & weave gitops cope with a silly number of kustomizations
+#
+# target structure:
+# scenarios/
+# └── many-kustomizations/
+#     ├── kustomization.yaml          -- Flux kustomization that refs kustomization-[1...N].yaml
+#     ├── namespace.yaml              -- Create everything in a single namespace for ease of destruction
+#     ├── kustomizations/
+#     │   ├── kustomization-1.yaml    -- Each flux kustomization refs the appropriate podinfo-X/ directory
+#     │   ├── kustomization-2.yaml
+#     │   │ ...
+#     │   └── kustomization-N.yaml
+#     ├── podinfo-1/
+#     │   └── release.yaml            -- Deploy podinfo
+#     │ ...
+#     └── podinfo-1/
+#         └── release.yaml            -- Deploy podinfo
+
 import yaml
 import pathlib
-
-
-def make_namespace(namespace_id, namespace_root="test-namespace"):
-    return {
-        "apiVersion": "v1",
-        "kind": "Namespace",
-        "metadata": {
-            "name": f"{namespace_root}-{namespace_id}",
-            "annotations": {
-                "generated-by": "gitops-scenarios/scenarios/many-namespaces",
-                "params": f"make_namespace(f{namespace_id}, f{namespace_root})",
-            },
-        },
-    }
 
 
 def make_kustomization(resource_filenames: list[str]) -> dict:
@@ -32,6 +37,7 @@ def generate_namespaces(namespace_count: int) -> list[dict]:
     return res
 
 
+# FIXME make this write to proper files
 def main(namespace_count: int, output_directory: pathlib.Path):
     resource_filename = "many-namespaces.yaml"
     kustomization = make_kustomization([resource_filename])

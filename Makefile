@@ -92,12 +92,12 @@ access-weave-gitops: is-kind-cluster-context
 .PHONY: docker-scenarios-image interactive-scenarios-image
 ##@ Scenarios Docker Image
 docker-scenarios-image: ## Create the scenarios docker image
-	docker build -t $(SCENARIOS_IMAGE) -f scenario-generators/Dockerfile scenario-generators/
+	docker build -t $(SCENARIOS_IMAGE) .
 
 interactive-scenarios-image: docker-scenarios-image ## Start a shell in the scenarios docker image with $PWD mounted as /app
 	docker run -ti --rm --entrypoint=/bin/bash \
 						-v $(PWD)/scenarios:/scenarios/ \
-						-v $(PWD)/scenario-generators:/scenario-generators/ \
+						-v $(PWD)/scenario-generators:/app/scenario-generators/ \
 						$(SCENARIOS_IMAGE)
 
 
@@ -105,14 +105,15 @@ interactive-scenarios-image: docker-scenarios-image ## Start a shell in the scen
 ##@ Generate scenario resources
 SCENARIO_SRC=$(shell find scenario-generators/ -type f)
 scenarios/%: $(SCENARIO_SRC)
-	@echo "Generating resources for scenario: '$*'"
+	@echo "Generating resources for scenario: '$*' => $(subst -,_,$*)"
 	@mkdir -p $@
 	@if [ -z "$(shell docker image ls -q $(SCENARIOS_IMAGE))" ]; then \
 		echo "scenario image, '$(SCENARIOS_IMAGE)', not found, please run:\n\tmake docker-scenarios-image" ; \
 	else \
 		docker run --rm -v $(PWD)/scenarios:/scenarios/ \
 							$(SCENARIOS_IMAGE) \
-							$*/generate.py -d /scenarios/$* $(SCENARIO_ARGS) ; \
+							'scenario-generators.$(subst -,_,$*).generate' \
+							-d /scenarios/$* $(SCENARIO_ARGS) ; \
 		echo "done"; \
 	fi
 
@@ -121,16 +122,20 @@ many-namespaces: SCENARIO_ARGS=--namespaces $(N)
 many-namespaces: scenarios/many-namespaces ## Generate N namespaces (default 200)
 
 
-.PHONY: run-many-namespaces
+.PHONY: run_many_namespaces
 ##@ Run Scenarios
 _run-%: is-kind-cluster-context %
-	@flux create kustomization many-namespaces \
+	@flux create kustomization $* \
 				--source=bucket/scenarios \
 				--path=./$* \
 				--prune=true \
 				--interval=30s
 
 run-many-namespaces: _run-many-namespaces ## Create a flux kustomization that adds 200 namespaces to the cluster
+
+
+clean:
+	rm -r scenarios/*
 
 
 .PHONY: help
