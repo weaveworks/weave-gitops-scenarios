@@ -11,49 +11,97 @@
 #     │   ├── kustomization-2.yaml
 #     │   │ ...
 #     │   └── kustomization-N.yaml
-#     ├── podinfo-1/
+#     ├── podinfo-kustomization-1/
 #     │   └── release.yaml            -- Deploy podinfo
 #     │ ...
-#     └── podinfo-1/
+#     └── podinfo-kustomization-N/
 #         └── release.yaml            -- Deploy podinfo
+#
+from ..lib.generate import get_argparser, write_scenario
+from ..lib.make_resource import (
+    make_flux_kustomization,
+    make_kustomization,
+    make_namespace,
+)
 
-import yaml
-import pathlib
 
-
-def make_kustomization(resource_filenames: list[str]) -> dict:
+def podinfo_release(idx: int, namespace: str):
+    name = f"podinfo-{idx}"
+    port = 8000 + idx
     return {
-        "apiVersion": "kustomize.config.k8s.io/v1beta1",
-        "kind": "Kustomization",
-        "resources": resource_filenames,
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+            "name": name,
+            "namespace": namespace,
+        },
+        "spec": {
+            "replicas": 1,
+            "selector": {
+                "matchLabels": {
+                    "app": name,
+                },
+            },
+            "template": {
+                "metadata": {
+                    "labels": {
+                        "app": name,
+                    },
+                },
+                "spec": {
+                    "containers": [
+                        {
+                            "name": name,
+                            "image": "ghcr.io/stefanprodan/podinfo:6.1.6",
+                            "imagePullPolicy": "IfNotPresent",
+                            "ports": [
+                                {
+                                    "name": "http",
+                                    "containerPort": port,
+                                    "protocol": "TCP",
+                                }
+                            ],
+                            "command": [
+                                "./podinfo",
+                                f"--port={port}",
+                            ],
+                        }
+                    ]
+                },
+            },
+        },
     }
 
 
-def generate_namespaces(namespace_count: int) -> list[dict]:
-    res = []
-    for i in range(namespace_count):
-        res.append(make_namespace(i))
+def main(namespace_count: int) -> dict[list]:
+    namespace = "many-podinfo-kustomizations"
+    namespace_filename = "namespace.yaml"
+
+    res = {namespace_filename: make_namespace(namespace)}
+
+    resource_list = [namespace_filename]
+
+    for idx in range(namespace_count):
+        name = f"podinfo-kustomization-{idx}"
+        kustomization_file = f"kustomizations/kustomization-{idx}.yaml"
+        release_file = f"{name}/release.yaml"
+
+        res[kustomization_file] = make_flux_kustomization(
+            name, f"./many-podinfo-kustomizations/{name}"
+        )
+        res[release_file] = podinfo_release(idx, namespace)
+        resource_list.append(kustomization_file)
+
+    res["kustomization.yaml"] = make_kustomization(resource_list)
 
     return res
-
-
-# FIXME make this write to proper files
-def main(namespace_count: int, output_directory: pathlib.Path):
-    resource_filename = "many-namespaces.yaml"
-    kustomization = make_kustomization([resource_filename])
-    namespaces = generate_namespaces(namespace_count)
-
-    with open(f"{output_directory}/kustomization.yaml", "w") as kustomization_file:
-        with open(f"{output_directory}/{resource_filename}", "w") as resource_file:
-            yaml.dump(kustomization, kustomization_file)
-            yaml.dump_all(namespaces, resource_file)
 
 
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="Generate some namespaces and associated podinfo instances"
+    parser = get_argparser(
+        "many-podinfo-kustomizations", "Generate an arbitrary number of namespaces"
     )
 
     parser.add_argument(
@@ -65,14 +113,7 @@ if __name__ == "__main__":
         help="how many namespaces to generate",
     )
 
-    parser.add_argument(
-        "-d",
-        "--dir",
-        default="/scenarios/many-namespaces",
-        type=pathlib.Path,
-        help="Output directory",
-    )
-
     args = parser.parse_args()
 
-    main(args.namespaces, args.dir)
+    res = main(args.namespaces)
+    write_scenario(res, args.dir, args.stdout)

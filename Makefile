@@ -92,12 +92,12 @@ access-weave-gitops: is-kind-cluster-context
 .PHONY: docker-scenarios-image interactive-scenarios-image
 ##@ Scenarios Docker Image
 docker-scenarios-image: ## Create the scenarios docker image
-	docker build -t $(SCENARIOS_IMAGE) .
+	@docker build -t $(SCENARIOS_IMAGE) .
 
 interactive-scenarios-image: docker-scenarios-image ## Start a shell in the scenarios docker image with $PWD mounted as /app
-	docker run -ti --rm --entrypoint=/bin/bash \
+	@docker run -ti --rm --entrypoint=/bin/bash \
 						-v $(PWD)/scenarios:/scenarios/ \
-						-v $(PWD)/scenario-generators:/app/scenario-generators/ \
+						-v $(PWD):/app/ \
 						$(SCENARIOS_IMAGE)
 
 
@@ -106,7 +106,6 @@ interactive-scenarios-image: docker-scenarios-image ## Start a shell in the scen
 SCENARIO_SRC=$(shell find scenario-generators/ -type f)
 scenarios/%: $(SCENARIO_SRC)
 	@echo "Generating resources for scenario: '$*' => $(subst -,_,$*)"
-	@mkdir -p $@
 	@if [ -z "$(shell docker image ls -q $(SCENARIOS_IMAGE))" ]; then \
 		echo "scenario image, '$(SCENARIOS_IMAGE)', not found, please run:\n\tmake docker-scenarios-image" ; \
 	else \
@@ -117,23 +116,30 @@ scenarios/%: $(SCENARIO_SRC)
 		echo "done"; \
 	fi
 
-many-namespaces: N?=200
-many-namespaces: SCENARIO_ARGS=--namespaces $(N)
-many-namespaces: scenarios/many-namespaces ## Generate N namespaces (default 200)
 
-
-.PHONY: run_many_namespaces
+.PHONY: run_many_namespaces rm-many-namespaces
 ##@ Run Scenarios
-_run-%: is-kind-cluster-context %
+_run-%: is-kind-cluster-context scenarios/%
 	@flux create kustomization $* \
 				--source=bucket/scenarios \
 				--path=./$* \
 				--prune=true \
 				--interval=30s
 
-run-many-namespaces: _run-many-namespaces ## Create a flux kustomization that adds 200 namespaces to the cluster
+_rm-%: is-kind-cluster-context
+	@flux delete kustomization $*
+
+run-many-namespaces: _run-many-namespaces ## Create a flux kustomization that adds 6 namespaces to the cluster
+
+rm-many-namespaces: _rm-many-namespaces ## Delete the many-namespaces kustomization
+
+run-many-podinfo-kustomizations: _run-many-podinfo-kustomizations ## Create a load of flux kustomizations to run podinfo
+
+rm-many-podinfo-kustomizations: _rm-many-podinfo-kustomizations ## Delete the many-podinfo-kustomizations kustomization
 
 
+
+##@ Utilities
 clean:
 	rm -r scenarios/*
 

@@ -1,22 +1,11 @@
-import yaml
-import pathlib
-
 from ..lib.generate import get_argparser, write_scenario
-from ..lib.make_resource import namespace
-
-
-def make_kustomization(resource_filenames: list[str]) -> dict:
-    return {
-        "apiVersion": "kustomize.config.k8s.io/v1beta1",
-        "kind": "Kustomization",
-        "resources": resource_filenames,
-    }
+from ..lib.make_resource import make_namespace, make_kustomization
 
 
 def generate_namespaces(namespace_count: int) -> list[dict]:
     res = []
-    for i in range(namespace_count):
-        res.append(namespace("many-namespaces", i, "test-namespace"))
+    for idx in range(namespace_count):
+        res.append(make_namespace("many-namespaces", "test-namespace", idx))
 
     return res
 
@@ -24,7 +13,7 @@ def generate_namespaces(namespace_count: int) -> list[dict]:
 def main(namespace_count: int) -> dict[list]:
     resource_filename = "many-namespaces.yaml"
     return {
-        "kustomization.yaml": [make_kustomization([resource_filename])],
+        "kustomization.yaml": make_kustomization([resource_filename]),
         resource_filename: generate_namespaces(namespace_count),
     }
 
@@ -32,7 +21,9 @@ def main(namespace_count: int) -> dict[list]:
 if __name__ == "__main__":
     import argparse
 
-    parser = get_argparser("Generate an arbitrary number of namespaces")
+    parser = get_argparser(
+        "many-namespaces", "Generate an arbitrary number of namespaces"
+    )
 
     parser.add_argument(
         "-n",

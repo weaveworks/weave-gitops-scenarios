@@ -5,8 +5,7 @@
 
 FROM python:3
 
-
-RUN echo 'alias ls="ls --color=auto"\nalias l="ls -lah"' >> ~/.bashrc
+RUN echo 'alias ls="ls --color=auto"\nalias l="ls -lah"\nfunction runscenario(){ poetry run python -m "scenario-generators.$1.generate" ${*:2}; }' >> ~/.bashrc
 
 WORKDIR /app
 

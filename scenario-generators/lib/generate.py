@@ -1,27 +1,55 @@
-import yaml
 import argparse
+import sys
+import yaml
+
 from pathlib import Path
 
 
-def write_scenario(files_dict: dict[list], output_directory: str, stdout: bool):
+def __create_dir_if_needed(path, stdout):
+    if stdout and path.exists():
+        return
+
+    if stdout and not path.exists():
+        print(f"# Would create {path}")
+        return
+
+    if not path.exists():
+        path.mkdir(parents=True)
+
+
+def write_scenario(files_dict: dict, output_directory: str, stdout: bool):
     outdir = Path(output_directory)
+
+    __create_dir_if_needed(outdir, stdout)
+
     for (filename, contents) in files_dict.items():
-        if stdout:
-            print(f"# {filename}")
-            print(yaml.dump_all(contents))
-            continue
+        if "/" in filename:
+            subpaths = filename.split("/")[:-1]
+            __create_dir_if_needed(outdir.joinpath(*subpaths), stdout)
 
-        with open(outdir.joinpath(filename), "w") as out_file:
-            yaml.dump_all(contents, out_file)
+        try:
+            stream = sys.stdout if stdout else outdir.joinpath(filename).open("w")
+
+            if stdout:
+                print(f"# {filename}\n")
+
+            if type(contents) is list:
+                yaml.dump_all(contents, stream)
+            else:
+                yaml.dump(contents, stream)
+
+        finally:
+            if stream is not sys.stdout:
+                stream.close()
 
 
-def get_argparser(description):
+def get_argparser(scenario, description):
 
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument(
         "-d",
         "--dir",
-        default="/scenarios/many-namespaces",
+        default=f"/scenarios/{scenario}",
         type=Path,
         help="Output directory",
     )
