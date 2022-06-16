@@ -10,8 +10,28 @@ This shows how to start the minio server, a kind cluster with flux and then
 run a scenario against it.
 
 ```console
-$ make add-flux-kustomization
+$ make add-flux-kustomization            # Create the cluster & install flux on it
+$ make run-many-podinfo-kustomizations   # Run the many-podinfo-kustomizations scenario
+$ make access-weave-gitops               # View the gitops UI
+browse to: http://localhost:5000
+Forwarding from 127.0.0.1:5000 -> 9001
+Forwarding from [::1]:5000 -> 9001
+...
+$ make rm-many-podinfo-kustomizations    # Stop running the scenario
+$ make delete-cluster                    # Stop the cluster
+$ make rm-minio                          # Stop minio
 ```
+
+If you're developing scenario-generators you can run
+```console
+$ make interactive-scenarios-image
+> runscenario many_podinfo_kustomizations -n 90 --stdout
+```
+to start a TTY shell in the docker image. The helper function `runscenario` is
+configured to make it easy to run scenarios.
+
+**Note** because the scenario-generators are written in python they use `_` in
+their names rather than `-` (as is used elsewhere).
 
 
 ## Scenarios
