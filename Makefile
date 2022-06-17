@@ -68,7 +68,7 @@ rm-minio: ## Stop and remove the minio server container
 install-flux: create-cluster is-kind-cluster-context ## Install flux (depends on create-cluster)
 	@flux install
 
-add-minio-source: start-minio install-flux ## Add Minio as a bucket source to flux
+add-minio-source: install-flux start-minio ## Add Minio as a bucket source to flux
 	@flux create source bucket flux-system \
 				--bucket-name k8s \
 				--endpoint="$(MINIO_CONTAINER_NAME):9000" \
