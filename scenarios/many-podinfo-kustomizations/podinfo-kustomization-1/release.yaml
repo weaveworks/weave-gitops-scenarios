@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: podinfo-1
+  namespace: many-podinfo-kustomizations
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: podinfo-1
+  template:
+    metadata:
+      labels:
+        app: podinfo-1
+    spec:
+      containers:
+      - command:
+        - ./podinfo
+        - --port=8001
+        image: ghcr.io/stefanprodan/podinfo:6.1.6
+        imagePullPolicy: IfNotPresent
+        name: podinfo-1
+        ports:
+        - containerPort: 8001
+          name: http
+          protocol: TCP

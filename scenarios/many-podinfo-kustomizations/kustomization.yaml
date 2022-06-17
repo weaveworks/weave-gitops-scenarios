@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- namespace.yaml
+- kustomizations/kustomization-0.yaml
+- kustomizations/kustomization-1.yaml
+- kustomizations/kustomization-2.yaml
+- kustomizations/kustomization-3.yaml
+- kustomizations/kustomization-4.yaml
+- kustomizations/kustomization-5.yaml
