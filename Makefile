@@ -117,7 +117,7 @@ scenarios/%: $(SCENARIO_SRC)
 	fi
 
 
-.PHONY: run_many_namespaces rm-many-namespaces
+.PHONY: run-many-namespaces rm-many-namespaces
 ##@ Run Scenarios
 _run-%: is-kind-cluster-context scenarios/%
 	@flux create kustomization $* \
