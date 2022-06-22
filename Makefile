@@ -1,3 +1,4 @@
+KIND_NETWORK_NAME=kind
 KIND_CLUSTER_NAME?=wego-scenarios
 
 MINIO_NETWORK?=kind
@@ -6,19 +7,30 @@ MINIO_ROOT_PASSWORD?=password
 # Container name is also used as the hostname of the server on the docker network
 MINIO_CONTAINER_NAME=minio-server
 
+REGISTRY_CONTAINER_NAME=kind-registry
+
 SCENARIOS_IMAGE?=gitops-scenarios
+
+IMAGE_TO_PUSH?=localhost:5001/gitops-server
 
 .PHONY: create-cluster list-clusters delete-cluster is-kind-cluster-context
 ##@ Cluster operations
 create-cluster: ## Make a new kind cluster called $KIND_CLUSTER_NAME
 	@if ( kind get clusters | grep $(KIND_CLUSTER_NAME) > /dev/null ) ; then \
-		echo "cluster $(KIND_CLUSTER_NAME) already exists, either delete it or ignore this message"; \
+		echo "cluster $(KIND_CLUSTER_NAME) already exists, either delete it or ignore this message" ; \
 	else \
 		kind create cluster --name=$(KIND_CLUSTER_NAME) ; \
+		echo "cluster ${KIND_CLUSTER_NAME} created" ; \
 	fi
 
-list-clusters: ## List all kind clusters
-	@kind get clusters
+create-cluster-with-registry: start-registry ## Start a kind cluster with an attached registry
+	@if ( kind get clusters | grep $(KIND_CLUSTER_NAME) > /dev/null ) ; then \
+		echo "cluster $(KIND_CLUSTER_NAME) already exists, either delete it or ignore this message" ; \
+	else \
+		kind create cluster --name=$(KIND_CLUSTER_NAME) --config=kind/cluster-with-registry-config.yaml ; \
+		kubectl apply -f kind/cluster-registry-config-map.yaml ; \
+		echo "cluster ${KIND_CLUSTER_NAME} created with registry $(REGISTRY_CONTAINER_NAME)" ; \
+	fi
 
 delete-cluster: ## Make a delete the kind cluster called $KIND_CLUSTER_NAME
 	@kind delete cluster --name=$(KIND_CLUSTER_NAME)
@@ -38,20 +50,30 @@ else
 	fi
 endif
 
+# Because of the required order of operations (particularly building a cluster
+# with a registry) we may need to make our kind network
+create-kind-network:
+	@if [ -z "$(shell docker network ls -qf 'name=$(KIND_NETWORK_NAME)')" ] ; then \
+		docker network create --subnet "fc00:f853:ccd:e793::/64" \
+												  --opt "com.docker.network.bridge.enable_ip_masquerade=true" \
+													--opt "com.docker.network.driver.mtu=1500" \
+													$(KIND_NETWORK_NAME) ; \
+	fi
+
 
 .PHONY: start-minio add-minio-source add-flux-kustomization
 ##@ Minio
-start-minio: ## Start a minio server running on the kind network
+start-minio: create-kind-network ## Start a minio server running on the kind network
 	@if [ ! -z "$(shell docker ps -qaf 'status=running' -f 'name=$(MINIO_CONTAINER_NAME)')" ] ; then \
-		echo "minio already running" ; \
+		echo "$(MINIO_CONTAINER_NAME) already running" ; \
 	else \
 		docker run -d -v $(PWD):/data \
-							-p 9000:9000 -p 9001:9001 --network=kind \
+							-p 9070:9070 -p 9071:9071 --network=$(KIND_NETWORK_NAME) \
 							-h $(MINIO_CONTAINER_NAME) \
 							-e MINIO_ROOT_USER=$(MINIO_ROOT_USER) \
 							-e MINIO_ROOT_PASSWORD=$(MINIO_ROOT_PASSWORD) \
 							--name $(MINIO_CONTAINER_NAME) \
-							minio/minio server /data --console-address ":9001" ; \
+							minio/minio server /data --console-address ":9071" --address ":9070"; \
 	fi
 
 rm-minio: ## Stop and remove the minio server container
@@ -59,19 +81,44 @@ rm-minio: ## Stop and remove the minio server container
 			docker stop $(MINIO_CONTAINER_NAME); \
 			docker container rm $(MINIO_CONTAINER_NAME); \
 		else \
-			echo "minio server, '$(MINIO_CONTAINER_NAME)', not running" ; \
+			echo "$(MINIO_CONTAINER_NAME) not running" ; \
 		fi
 
 
-.PHONY: install-flux
+.PHONY: start-registry rm-registry
+##@ Docker Registry
+start-registry: create-kind-network ## Start a docker registry running on the kind network
+	@if [ ! -z "$(shell docker ps -qaf 'status=running' -f 'name=$(REGISTRY_CONTAINER_NAME)')" ] ; then \
+		echo "$(REGISTRY_CONTAINER_NAME) already running" ; \
+	else \
+		docker run -d \
+							-p "127.0.0.1:5001:5000" --network=$(KIND_NETWORK_NAME) \
+							-h $(REGISTRY_CONTAINER_NAME) \
+							--name $(REGISTRY_CONTAINER_NAME) \
+							registry:2; \
+	fi
+
+rm-registry: ## Stop and remove the docker registry container
+		@if [ ! -z "$(shell docker ps -qaf 'status=running' -f 'name=$(REGISTRY_CONTAINER_NAME)')" ] ; then \
+			docker stop $(REGISTRY_CONTAINER_NAME); \
+			docker container rm $(REGISTRY_CONTAINER_NAME); \
+		else \
+			echo "$(REGISTRY_CONTAINER_NAME) not running" ; \
+		fi
+
+push-to-registry: ## Push the image, $IMAGE_TO_PUSH, to the kind-registry (default localhost:5001/gitops-server)
+	@docker push $(IMAGE_TO_PUSH)
+
+
+.PHONY: install-flux add-minio-source add-flux-kustomization access-weave-gitops
 ##@ Flux
-install-flux: create-cluster is-kind-cluster-context ## Install flux (depends on create-cluster)
+install-flux: create-cluster is-kind-cluster-context ## Install flux
 	@flux install
 
 add-minio-source: install-flux start-minio ## Add Minio as a bucket source to flux
 	@flux create source bucket flux-system \
 				--bucket-name k8s \
-				--endpoint="$(MINIO_CONTAINER_NAME):9000" \
+				--endpoint="$(MINIO_CONTAINER_NAME):9070" \
 				--insecure=true \
 				--access-key=$(MINIO_ROOT_USER) \
 				--secret-key=$(MINIO_ROOT_PASSWORD) \
@@ -84,9 +131,9 @@ add-flux-kustomization: add-minio-source ## Add the base flux-system kustomizati
 				--prune=true \
 				--interval=30s
 
-access-weave-gitops: is-kind-cluster-context
-	@echo "browse to: http://localhost:5000"
-	@kubectl port-forward -n flux-system svc/weave-gitops-app 5000:9001
+access-weave-gitops: is-kind-cluster-context ## Set up port-forwarding to access the weave gitops app
+	@echo "browse to: http://localhost:9001"
+	@kubectl port-forward -n flux-system svc/weave-gitops-app 9001:9001
 
 
 .PHONY: docker-scenarios-image interactive-scenarios-image
@@ -102,7 +149,7 @@ interactive-scenarios-image: docker-scenarios-image ## Start a shell in the scen
 
 
 .PHONY: many-namespaces
-##@ Generate scenario resources
+## @ Generate scenario resources
 SCENARIO_SRC=$(shell find scenario-generators/ -type f)
 scenarios/%: $(SCENARIO_SRC)
 	@echo "Generating resources for scenario: '$*' => $(subst -,_,$*)"
@@ -116,8 +163,7 @@ scenarios/%: $(SCENARIO_SRC)
 		echo "done"; \
 	fi
 
-
-.PHONY: run-many-namespaces rm-many-namespaces
+.PHONY: run-many-namespaces rm-many-namespaces run-many-podinfo-kustomizations rm-many-podinfo-kustomizations
 ##@ Run Scenarios
 _run-%: is-kind-cluster-context scenarios/%
 	@flux create kustomization $* \
@@ -138,10 +184,13 @@ run-many-podinfo-kustomizations: _run-many-podinfo-kustomizations ## Create a lo
 rm-many-podinfo-kustomizations: _rm-many-podinfo-kustomizations ## Delete the many-podinfo-kustomizations kustomization
 
 
-
+.PHONY: clean-scenarios clean-all-containers
 ##@ Utilities
-clean:
+clean-scenarios: ## Delete the contents of the scenarios directory
 	rm -r scenarios/*
+
+clean-all-docker: delete-cluster rm-minio rm-registry ## delete docker resources (cluster, minio, the registry and the kind network)
+	@docker network rm $(KIND_NETWORK_NAME)
 
 
 .PHONY: help
