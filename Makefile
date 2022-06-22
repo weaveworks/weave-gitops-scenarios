@@ -183,6 +183,14 @@ run-many-podinfo-kustomizations: _run-many-podinfo-kustomizations ## Create a lo
 
 rm-many-podinfo-kustomizations: _rm-many-podinfo-kustomizations ## Delete the many-podinfo-kustomizations kustomization
 
+run-dex: _run-dex ## Start a dex server running
+	@echo "For dex to work you need to run the following:" \
+				"\n\tsudo bash -c \"echo -e '# enable dex callbacks to route to the kind cluster\\\n127.0.0.1 dex-dex.dex.svc.cluster.local' >> /etc/hosts\"" \
+				"\nThis will allow the OIDC callback to resolve correctly."
+
+rm-dex: _rm-dex ## Stop the dex server running
+	@echo "You can now safely remove the lines following lines from /etc/hosts:" \
+				"\n\t# enable dex callbacks to route to the kind cluster\n\t127.0.0.1 dex-dex.dex.svc.cluster.local"
 
 .PHONY: clean-scenarios clean-all-containers
 ##@ Utilities
