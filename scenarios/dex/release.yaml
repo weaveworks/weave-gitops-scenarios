@@ -4,64 +4,41 @@ metadata:
   name: dex
   namespace: dex
 spec:
-  targetNamespace: dex
-  interval: 5m
   chart:
     spec:
       chart: dex
-      version: 0.6.5
+      interval: 1m
       sourceRef:
         kind: HelmRepository
         name: dex
         namespace: flux-system
-      interval: 1m
+      version: 0.6.5
+  interval: 5m
+  targetNamespace: dex
   values:
-    image:
-      tag: v2.31.0
     config:
-      # Set it to a valid URL
+      enablePasswordDB: true
       issuer: http://dex-dex.dex.svc.cluster.local:5556
-      # issuer: http://127.0.0.1:5556
-
-      # See https://dexidp.io/docs/storage/ for more options
+      staticClients:
+      - id: weave-gitops-app
+        name: Weave Gitops
+        redirectURIs:
+        - http://localhost:9001/oauth2/callback
+        secret: B7Skl2cfSoOQgOhIkeqxx1uJjWxjCFoEEymk
+      staticPasswords:
+      - email: alice@test.invalid
+        hash: $2y$10$5b/iK/HHCyYRk7S0iNaqn.mb36QbC0sSNKR5Rnhh/cITPgdviwfcu
+        userID: 1111240c-6f22-4da7-94e1-8d52d260f0bd
+        username: alice
+      - email: bob@test.invalid
+        hash: $2y$10$5b/iK/HHCyYRk7S0iNaqn.mb36QbC0sSNKR5Rnhh/cITPgdviwfcu
+        userID: fceaf51f-f8a7-4aff-809e-1b1568e96528
+        username: bob
       storage:
         type: memory
-
       web:
         http: 0.0.0.0:5556
-
-      staticClients:
-      - name: 'Weave GitOps Core'
-        id: weave-gitops
-        secret: AiAImuXKhoI5ApvKWF988txjZ+6rG3S7o6X5En
-        redirectURIs:
-        # port has to match browser host?
-        - 'http://localhost:9001/oauth2/callback'
-        - 'http://0.0.0.0:9001/oauth2/callback'
-
-      # We're going to set up dex to do basic auth rather than use connectors
-      enablePasswordDB: true
-      staticPasswords:
-      - email: "test-user@test.invalid"
-        username: "test"
-        userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
-        hash: "$2y$10$U3n7E2V2FJA5wpv6o3pFe.EsKo6JbwzasikAKCSn2GEB5hy9JtbYS" #  echo password | htpasswd -BinC 10 admin | cut -d: -f2
-
-      logger:
-        level: "debug"
-        format: "json"
-
+    image:
+      tag: v2.31.0
     ingress:
       enabled: false
-      # className: nginx
-      # annotations:
-      #   cert-manager.io/cluster-issuer: letsencrypt-prod
-      # hosts:
-      #   - host: dex.dev.example.tld
-      #     paths:
-      #     - path: /
-      #       pathType: ImplementationSpecific
-      # tls:
-      #   - hosts:
-      #     - dex.dev.example.tld
-      #     secretName: dex-dev-example-tld

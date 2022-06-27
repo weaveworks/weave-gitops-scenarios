@@ -10,7 +10,7 @@ This shows how to start the minio server, a kind cluster with flux and then
 run a scenario against it.
 
 ```console
-$ make add-flux-kustomization            # Create the cluster & install flux on it
+$ make install-weave-gitops              # Create the cluster & install flux on it
 $ make run-many-podinfo-kustomizations   # Run the many-podinfo-kustomizations scenario
 $ make access-weave-gitops               # View the gitops UI
 browse to: http://localhost:5000

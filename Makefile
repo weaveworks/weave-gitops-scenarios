@@ -182,9 +182,19 @@ run-many-podinfo-kustomizations: _run-many-podinfo-kustomizations ## Run the man
 rm-many-podinfo-kustomizations: _rm-many-podinfo-kustomizations
 
 run-dex: _run-dex ## Run the dex scenario (use 'make rm-dex' stop it)
-	@echo "For dex to work you need to run the following:" \
-				"\n\tsudo bash -c \"echo -e '# enable dex callbacks to route to the kind cluster\\\n127.0.0.1 dex-dex.dex.svc.cluster.local' >> /etc/hosts\"" \
-				"\nThis will allow the OIDC callback to resolve correctly."
+	@echo "Waiting for the helmrelease/dex to be ready..."
+	@kubectl wait -n dex \
+					helmreleases.helm.toolkit.fluxcd.io/dex \
+					--for condition=Ready
+	@kubectl delete pod -n flux-system -l 'app.kubernetes.io/name=weave-gitops' # Delete the weave-gitops pod so that it picks up the new oidc-auth secret
+	@echo "\n\n For dex to work you need to run the following:\n" \
+				"\tsudo bash -c \"echo -e '127.0.0.1 dex-dex.dex.svc.cluster.local' >> /etc/hosts\"\n" \
+				"This will allow the OIDC callback to resolve correctly.\n" \
+				"Now run 'make access-weave-gitops' and 'make access-dex'"
+
+access-dex: # Port forward to the Dex server
+	@kubectl port-forward -n dex svc/dex-dex 5556:5556
+
 rm-dex: _rm-dex
 	@echo "You can now safely remove the lines following lines from /etc/hosts:" \
 				"\n\t# enable dex callbacks to route to the kind cluster\n\t127.0.0.1 dex-dex.dex.svc.cluster.local"

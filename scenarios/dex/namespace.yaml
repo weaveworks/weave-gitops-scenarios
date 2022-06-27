@@ -1,5 +1,8 @@
----
 apiVersion: v1
 kind: Namespace
 metadata:
+  annotations:
+    namespace_id: --
+    namespace_root: dex
+    scenario: dex
   name: dex
