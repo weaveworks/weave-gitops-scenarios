@@ -13,6 +13,8 @@ SCENARIOS_IMAGE?=gitops-scenarios
 
 IMAGE_TO_PUSH?=localhost:5001/gitops-server
 
+SCENARIOS:=dex many-namespaces many-podinfo-kustomizations
+
 .PHONY: create-cluster list-clusters delete-cluster is-kind-cluster-context
 ##@ Cluster operations
 create-cluster: ## Make a new kind cluster called $KIND_CLUSTER_NAME
@@ -23,7 +25,7 @@ create-cluster: ## Make a new kind cluster called $KIND_CLUSTER_NAME
 		echo "cluster ${KIND_CLUSTER_NAME} created" ; \
 	fi
 
-create-cluster-with-registry: start-registry ## Start a kind cluster with an attached registry
+create-cluster-with-registry: start-registry ## Make a new kind cluster called $KIND_CLUSTER_NAME with an attached registry
 	@if ( kind get clusters | grep $(KIND_CLUSTER_NAME) > /dev/null ) ; then \
 		echo "cluster $(KIND_CLUSTER_NAME) already exists, either delete it or ignore this message" ; \
 	else \
@@ -32,10 +34,10 @@ create-cluster-with-registry: start-registry ## Start a kind cluster with an att
 		echo "cluster ${KIND_CLUSTER_NAME} created with registry $(REGISTRY_CONTAINER_NAME)" ; \
 	fi
 
-delete-cluster: ## Make a delete the kind cluster called $KIND_CLUSTER_NAME
+delete-cluster: ## Delete the kind cluster $KIND_CLUSTER_NAME
 	@kind delete cluster --name=$(KIND_CLUSTER_NAME)
 
-is-kind-cluster-context: ## Basic check that kubectl's context is for kind. Skip with SKIP_K8S_CONTEXT_CHECK
+is-kind-cluster-context: ## Check that kubectl's context is for kind. Skip with SKIP_K8S_CONTEXT_CHECK
 # This assumes that you've not made another context which shadows the default
 # kind naming scheme. If you have done that then... why?
 # Also, sorry for mixing makefile 'if' statements with shell 'if' statements...
@@ -112,10 +114,9 @@ push-to-registry: ## Push the image, $IMAGE_TO_PUSH, to the kind-registry (defau
 
 .PHONY: install-flux add-minio-source add-flux-kustomization access-weave-gitops
 ##@ Flux
-install-flux: create-cluster is-kind-cluster-context ## Install flux
+install-weave-gitops: start-minio create-cluster is-kind-cluster-context ## Install flux & weave gitops in the current cluster
+# 	This has to be installed step by step as 'bootstrap' requires a git source
 	@flux install
-
-add-minio-source: install-flux start-minio ## Add Minio as a bucket source to flux
 	@flux create source bucket flux-system \
 				--bucket-name k8s \
 				--endpoint="$(MINIO_CONTAINER_NAME):9070" \
@@ -123,8 +124,6 @@ add-minio-source: install-flux start-minio ## Add Minio as a bucket source to fl
 				--access-key=$(MINIO_ROOT_USER) \
 				--secret-key=$(MINIO_ROOT_PASSWORD) \
 				--interval=30s
-
-add-flux-kustomization: add-minio-source ## Add the base flux-system kustomization to flux
 	@flux create kustomization flux-system \
 				--source=bucket/flux-system \
 				--path='./cluster' \
@@ -148,10 +147,9 @@ interactive-scenarios-image: docker-scenarios-image ## Start a shell in the scen
 						$(SCENARIOS_IMAGE)
 
 
-.PHONY: many-namespaces
-## @ Generate scenario resources
+##@ Generate scenario resources
 SCENARIO_SRC=$(shell find scenario-generators/ -type f)
-scenarios/%: $(SCENARIO_SRC)
+scenarios/%: $(SCENARIO_SRC) ## Generate an individual scenarion with, e.g. make scenarios/dex
 	@echo "Generating resources for scenario: '$*' => $(subst -,_,$*)"
 	@if [ -z "$(shell docker image ls -q $(SCENARIOS_IMAGE))" ]; then \
 		echo "scenario image, '$(SCENARIOS_IMAGE)', not found, please run:\n\tmake docker-scenarios-image" ; \
@@ -163,8 +161,11 @@ scenarios/%: $(SCENARIO_SRC)
 		echo "done"; \
 	fi
 
+all-scenarios: docker-scenarios-image $(foreach scenario,$(SCENARIOS),$(addprefix scenarios/,$(scenario))) ## Generate all scenarios
+
+
 .PHONY: run-many-namespaces rm-many-namespaces run-many-podinfo-kustomizations rm-many-podinfo-kustomizations
-##@ Run Scenarios
+##@ Run (and remove) scenarios
 _run-%: is-kind-cluster-context scenarios/%
 	@flux create kustomization $* \
 				--source=bucket/scenarios \
@@ -175,20 +176,16 @@ _run-%: is-kind-cluster-context scenarios/%
 _rm-%: is-kind-cluster-context
 	@flux delete kustomization $*
 
-run-many-namespaces: _run-many-namespaces ## Create a flux kustomization that adds 6 namespaces to the cluster
+run-many-namespaces: _run-many-namespaces ## Run the many-namespaces scenario (use 'make rm-many-namespaces' stop it)
+rm-many-namespaces: _rm-many-namespaces
+run-many-podinfo-kustomizations: _run-many-podinfo-kustomizations ## Run the many-podinfo-kustomizations (use 'make rm-many-podinfo-kustomizations' stop it)
+rm-many-podinfo-kustomizations: _rm-many-podinfo-kustomizations
 
-rm-many-namespaces: _rm-many-namespaces ## Delete the many-namespaces kustomization
-
-run-many-podinfo-kustomizations: _run-many-podinfo-kustomizations ## Create a load of flux kustomizations to run podinfo
-
-rm-many-podinfo-kustomizations: _rm-many-podinfo-kustomizations ## Delete the many-podinfo-kustomizations kustomization
-
-run-dex: _run-dex ## Start a dex server running
+run-dex: _run-dex ## Run the dex scenario (use 'make rm-dex' stop it)
 	@echo "For dex to work you need to run the following:" \
 				"\n\tsudo bash -c \"echo -e '# enable dex callbacks to route to the kind cluster\\\n127.0.0.1 dex-dex.dex.svc.cluster.local' >> /etc/hosts\"" \
 				"\nThis will allow the OIDC callback to resolve correctly."
-
-rm-dex: _rm-dex ## Stop the dex server running
+rm-dex: _rm-dex
 	@echo "You can now safely remove the lines following lines from /etc/hosts:" \
 				"\n\t# enable dex callbacks to route to the kind cluster\n\t127.0.0.1 dex-dex.dex.svc.cluster.local"
 
@@ -204,9 +201,27 @@ clean-all-docker: delete-cluster rm-minio rm-registry ## delete docker resources
 .PHONY: help
 ##@ Meta
 # Thanks to https://www.thapaliya.com/en/writings/well-documented-makefiles/
-help:  ## Display this help.
+
+help: ## Show basic usage
+	@echo "\n" \
+				"Basic usage\n" \
+				"-----------\n\n" \
+				"Create a cluster and run the desired scenario on it:\n" \
+				"\t$$> make install-weave-gitops\n" \
+				"\t$$> make run-<scenario-name>\n\n" \
+				"Remove the scenario from the cluster:\n" \
+				"\t$$> make rm-<scenario-name>\n\n" \
+				"Delete the cluster:\n" \
+				"\t$$> make delete-cluster\n\n" \
+				"Clean up all docker resources:\n" \
+				"\t$$> make clean-all-docker\n\n" \
+				"See full help:\n" \
+				"\t$$> make help-full\n\n" \
+				"The available scenarios are: $(foreach scn,$(SCENARIOS),\n\t* $(scn))\n"
+
+help-full:  ## Display this help.
 ifeq ($(OS),Windows_NT)
-				@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n make <target>\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  %-40s %s\n", $$1, $$2 } /^##@/ { printf "\n%s\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n make <target>\n\n$(HELP_PREAMBLE)"} /^[a-zA-Z_-]+:.*?##/ { printf "  %-40s %s\n", $$1, $$2 } /^##@/ { printf "\n%s\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 else
-				@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-40s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n make \033[36m<target>\033[0m\n\n'${HELP_PREAMBLE}'"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-40s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 endif
