@@ -1,0 +1,44 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: dex
+  namespace: dex
+spec:
+  chart:
+    spec:
+      chart: dex
+      interval: 1m
+      sourceRef:
+        kind: HelmRepository
+        name: dex
+        namespace: flux-system
+      version: 0.6.5
+  interval: 5m
+  targetNamespace: dex
+  values:
+    config:
+      enablePasswordDB: true
+      issuer: http://dex-dex.dex.svc.cluster.local:5556
+      staticClients:
+      - id: weave-gitops-app
+        name: Weave Gitops
+        redirectURIs:
+        - http://localhost:9001/oauth2/callback
+        secret: B7Skl2cfSoOQgOhIkeqxx1uJjWxjCFoEEymk
+      staticPasswords:
+      - email: alice@test.invalid
+        hash: $2y$10$5b/iK/HHCyYRk7S0iNaqn.mb36QbC0sSNKR5Rnhh/cITPgdviwfcu
+        userID: 1111240c-6f22-4da7-94e1-8d52d260f0bd
+        username: alice
+      - email: bob@test.invalid
+        hash: $2y$10$5b/iK/HHCyYRk7S0iNaqn.mb36QbC0sSNKR5Rnhh/cITPgdviwfcu
+        userID: fceaf51f-f8a7-4aff-809e-1b1568e96528
+        username: bob
+      storage:
+        type: memory
+      web:
+        http: 0.0.0.0:5556
+    image:
+      tag: v2.31.0
+    ingress:
+      enabled: false

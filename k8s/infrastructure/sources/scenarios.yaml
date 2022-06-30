@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   bucketName: scenarios
-  endpoint: minio-server:9000
+  endpoint: minio-server:9070
   insecure: true
   interval: 30s
   provider: generic

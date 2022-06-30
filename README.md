@@ -3,6 +3,14 @@
 The aim of this repo is to provide some easy to install GitOps configurations that
 can be used to test potential configurations of a cluster.
 
+## HEALTH WARNING
+
+The scenarios configured in this repo are designed for local use only. Running
+them against kubernetes clusters elsewhere should only be done after careful
+inspection of the configuration.
+
+This repo configures several systems with the password `password`.
+
 
 ## Usage
 
@@ -10,7 +18,7 @@ This shows how to start the minio server, a kind cluster with flux and then
 run a scenario against it.
 
 ```console
-$ make add-flux-kustomization            # Create the cluster & install flux on it
+$ make install-weave-gitops              # Create the cluster & install flux on it
 $ make run-many-podinfo-kustomizations   # Run the many-podinfo-kustomizations scenario
 $ make access-weave-gitops               # View the gitops UI
 browse to: http://localhost:5000
@@ -42,6 +50,29 @@ There are various scenarios we want to test but initially
   (initially podinfo)
 * Realistic OIDC configurations (this will need DEX setting up)
 * Load test workloads e.g. high (network|memory|CPU) loads
+
+### Dex
+
+The Dex scenario configures several static users, all with the same password
+(`password`):
+
+* alice@test.invalid (password: 'password')
+* bob@test.invalid (password: 'password')
+
+Because of how dex works to use this scenario you need to add the following
+to your `/etc/hosts` file (or other, OS appropriate, analogue):
+
+```
+# enable dex callbacks to route kind
+127.0.0.1 dex-dex.dex.svc.cluster.local
+```
+
+This specifies that, on your machine only, the URL `dex-dex.dex.svc.cluster.local`
+resolves to `127.0.0.1` (the localhost, i.e. your machine). This should only be
+done on your dev machine.
+
+If you want to know _why_ you have to do this, please read
+[why edit /etc/hosts](./docs/why-edit-etc-hosts.md)
 
 
 ## How this works
